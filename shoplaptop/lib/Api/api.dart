@@ -8,7 +8,10 @@ class Api {
   get(path) async {
     var url = Uri.parse(baseUrl + path);
 
-    final response = await http.get(url, headers: await header());
+    final response = await http.get(
+      url,
+      headers: await header(),
+    );
 
     return json.decode(response.body);
   }
@@ -28,6 +31,7 @@ class Api {
     return {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
+      'Connection': 'Keep-Alive',
     };
   }
 }

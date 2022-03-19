@@ -24,7 +24,7 @@ class ItemInvoice extends StatelessWidget {
             ),
             child: Hero(
               tag: "${product.id}",
-              child: Image.asset(product.imgPath),
+              child: Image.asset(product.img_path),
             ),
           ),
           Padding(

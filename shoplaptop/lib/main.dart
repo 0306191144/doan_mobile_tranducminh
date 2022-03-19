@@ -5,11 +5,11 @@ import 'package:shoplaptop/Module/Auth/Login.dart';
 import 'package:shoplaptop/Module/Cart/cart_page.dart';
 import 'package:shoplaptop/Module/home/Home.dart';
 import 'package:shoplaptop/Module/home/components/body.dart';
-import 'package:shoplaptop/Module/products/productDetail.dart';
 import 'package:shoplaptop/Module/products/product_caterory.dart';
 import 'package:shoplaptop/Module/user/update_information.dart';
 import 'package:shoplaptop/provider/AuthProvider.dart';
-import 'package:shoplaptop/provider/ProductProvider.dart';
+import 'package:shoplaptop/provider/product_provider.dart';
+import 'package:shoplaptop/provider/cart_provider.dart';
 import 'Module/Invoice/infor_shipping.dart';
 import 'Module/Invoice/invoice_item.dart';
 
@@ -18,6 +18,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => AuthProvider()),
       ChangeNotifierProvider(create: (_) => ProductsProvider()),
+      ChangeNotifierProvider(create: (_) => CartsProvider()),
     ],
     child: const MyApp(),
   ));

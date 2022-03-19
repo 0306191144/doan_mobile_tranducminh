@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoplaptop/provider/ProductProvider.dart';
+import 'package:shoplaptop/provider/product_provider.dart';
 import 'package:provider/src/provider.dart';
 
 class CenterPageLarge extends StatefulWidget {

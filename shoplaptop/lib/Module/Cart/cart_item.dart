@@ -1,22 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import 'package:shoplaptop/Model/product.dart';
-import 'package:shoplaptop/provider/ProductProvider.dart';
+import 'package:shoplaptop/Api/api.dart';
+import 'package:shoplaptop/Model/carts.dart';
+import 'package:shoplaptop/Module/Cart/cart_page.dart';
+import 'package:shoplaptop/provider/cart_provider.dart';
+import 'package:shoplaptop/widget/alter.dart';
 
 class CartItem extends StatelessWidget {
-  const CartItem({Key? key}) : super(key: key);
-
+  final dynamic data;
+  const CartItem({Key? key, required this.data}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Provider.of<ProductsProvider>(context).getProducts();
+    _onHandleQuantity(qty) async {
+      if (qty >= 1) {
+        var formData = {'quantity': qty};
+        var response = await Api().post(
+          'cart/update/${data.id}',
+          formData,
+        );
 
-    var products = context.watch<ProductsProvider>().myValue;
+        if (response['success'] != null && response['success']) {
+          Cart newCart = Cart.fromJson(response['data']);
+          context.read<CartsProvider>().update(newCart);
+        } else {
+          AlertMessage.showMsg(context, response['message']);
+        }
+      }
+    }
+
+    _delete() async {
+      var response = await Api().get(
+        'cart/delete/${data.id}',
+      );
+
+      if (response['success'] != null && response['success']) {
+        Cart newCart = Cart.fromJson(response['data']);
+        context.read<CartsProvider>().delete(newCart);
+      } else {
+        AlertMessage.showMsg(context, response['message']);
+      }
+    }
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.all(10.0),
       child: Row(children: [
-        Flexible(flex: 1, child: Image.network(products[0].imgPath)),
+        Flexible(
+            flex: 1,
+            child: Image.network(data.product.img_path, fit: BoxFit.cover)),
         const SizedBox(
           width: 15.0,
         ),
@@ -28,7 +59,10 @@ class CartItem extends StatelessWidget {
                   Expanded(
                       child: Column(
                     children: [
-                      Text(products[0].name),
+                      Text(data.product.name,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          )),
                       const SizedBox(
                         height: 10.0,
                       ),
@@ -36,7 +70,7 @@ class CartItem extends StatelessWidget {
                         children: [
                           Text('Price: '),
                           Text(
-                            products[0].price.toString(),
+                            data.product.price.toString(),
                             style: TextStyle(color: Colors.red),
                           ),
                         ],
@@ -47,7 +81,9 @@ class CartItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _delete();
+                          },
                           icon: const Icon(Icons.delete_outline)),
                       Container(
                         child: Row(
@@ -60,20 +96,24 @@ class CartItem extends StatelessWidget {
                                   border: Border.all(color: Colors.grey)),
                               child: Row(
                                 children: [
-                                  handleAmount('minus', () {}),
+                                  handleAmount('minus', () {
+                                    _onHandleQuantity(data.quantity - 1);
+                                  }),
                                   Container(
                                       alignment: Alignment.center,
                                       height: double.infinity,
                                       width: 30.0,
                                       color: Colors.grey,
-                                      child: const Text(
-                                        '1',
+                                      child: Text(
+                                        data.quantity.toString(),
                                         style: TextStyle(
                                             fontSize: 15.0,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
                                       )),
-                                  handleAmount('plus', () {}),
+                                  handleAmount('plus', () {
+                                    _onHandleQuantity(data.quantity + 1);
+                                  }),
                                 ],
                               ),
                             )

@@ -4,55 +4,39 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shoplaptop/Api/api.dart';
 import 'package:shoplaptop/Model/product.dart';
+import 'package:shoplaptop/Model/user.dart';
 
 class ProductsProvider extends ChangeNotifier {
-  var _myProduct = [];
+  List<dynamic> _myProduct = [];
   get myValue => _myProduct;
 
-  var _product = [];
-  get value_new => _product;
+  // ignore: non_constant_identifier_names
+  var _myProduct_new = [];
+  get mynew => _myProduct_new;
 
   getProducts() async {
     if (_myProduct.isEmpty) {
-      Map<String, dynamic> response = await Api().get('product/list_product');
+      Map<String, dynamic> response = await Api().get('products/list_product');
       if (response['success'] != null && response['success']) {
         var products =
             response['data'].map((data) => Product.fromJson(data)).toList();
-        print(products);
         _myProduct = products;
         notifyListeners();
       }
     }
   }
 
-  getproducts_new() async {
+  // ignore: non_constant_identifier_names
+  getProducts_new() async {
     if (_myProduct.isEmpty) {
       Map<String, dynamic> response =
-          await Api().get('product/list_product/new');
+          await Api().get('products/list_product/new');
       if (response['success'] != null && response['success']) {
         var products =
             response['data'].map((data) => Product.fromJson(data)).toList();
-        print(products);
-        _product = products;
+        _myProduct_new = products;
         notifyListeners();
       }
     }
-  }
-
-  postProduct($id) async {
-    if (_myProduct.isEmpty) {
-      Map<String, dynamic> response = await Api().post('products', $id);
-      if (response['success'] != null && response['success']) {
-        var products =
-            response['data'].map((data) => Product.fromJson(data)).toList();
-        _myProduct = products;
-        notifyListeners();
-      }
-    }
-  }
-
-  void update(data) {
-    _myProduct = data;
-    notifyListeners();
   }
 }

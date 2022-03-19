@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoplaptop/Model/user.dart';
+import 'package:shoplaptop/Module/user/update_information.dart';
 import 'package:shoplaptop/widget/footer.dart';
 import 'package:provider/provider.dart';
 import 'package:shoplaptop/provider/AuthProvider.dart';
@@ -20,7 +21,12 @@ class _Information_UserState extends State<Information_User> {
     User user = auth['user'];
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        leading: Builder(builder: (BuildContext context) {
+          return IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {},
+          );
+        }),
         title: const Text('Information User '),
       ),
       bottomNavigationBar: Footer(),
@@ -28,65 +34,36 @@ class _Information_UserState extends State<Information_User> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(children: [
-              widget_lable(
-                value: user.id.toString(),
-                title: 'id',
-              )
-            ]),
-            Row(children: [
-              widget_lable(
-                value: user.id.toString(),
-                title: 'id',
-              )
-            ]),
-            Row(children: [
-              widget_lable(
-                value: user.id.toString(),
-                title: 'id',
-              )
-            ]),
-            Row(children: [
-              widget_lable(
-                value: user.id.toString(),
-                title: 'id',
-              )
-            ]),
-            Row(children: [
-              widget_lable(
-                value: user.name,
-                title: 'name',
-              )
-            ]),
-            Row(children: [
-              widget_lable(
-                value: user.birthday,
-                title: 'birthday',
-              )
-            ]),
-            Row(children: [
-              widget_lable(
-                value: user.address,
-                title: 'address',
-              )
-            ]),
-            Row(children: [
-              widget_lable(
-                value: user.phone,
-                title: 'phone',
-              )
-            ]),
-            Row(children: [
-              MyButtonWidget(
-                  text: 'change Information',
-                  textStyle: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
-                  onPress: () {},
-                  color: Colors.blue,
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 10)),
-            ])
+            WidgetLable(
+              title: 'Name:',
+              value: user.name,
+            ),
+            WidgetLable(
+              title: 'Email:',
+              value: user.email,
+            ),
+            WidgetLable(
+              title: 'Email:',
+              value: user.email,
+            ),
+            WidgetLable(
+              title: 'Birthday:',
+              value: user.birthday,
+            ),
+            WidgetLable(
+              title: 'Address:',
+              value: user.address,
+            ),
+            MyButtonWidget(
+              text: 'Change Infomation',
+              padding: EdgeInsets.all(20),
+              onPress: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return update_User_Screen();
+                }));
+              },
+              color: Colors.blue,
+            )
           ],
         ),
       ),

@@ -4,7 +4,7 @@ import 'package:provider/src/provider.dart';
 import 'package:shoplaptop/Api/api.dart';
 
 import 'package:shoplaptop/Model/product.dart';
-import 'package:shoplaptop/provider/ProductProvider.dart';
+import 'package:shoplaptop/provider/product_provider.dart';
 import 'package:shoplaptop/widget/footer.dart';
 import 'package:shoplaptop/widget/mybutton_widget.dart';
 import 'package:shoplaptop/widget/product_card_widget.dart';

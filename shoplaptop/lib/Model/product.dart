@@ -4,7 +4,7 @@ class Product {
   late String discription;
   late String ram;
   late String cpu;
-  late String imgPath;
+  late String img_path;
   late String screen;
   int? price;
   int? productTypeId;
@@ -18,7 +18,7 @@ class Product {
     required this.ram,
     required this.cpu,
     required this.screen,
-    required this.imgPath,
+    required this.img_path,
     this.price,
     this.productTypeId,
     this.imageName,
@@ -30,7 +30,7 @@ class Product {
     discription = json['discription'];
     ram = json['ram'];
     cpu = json['cpu'];
-    imgPath = 'http://10.0.2.2:8000' + json['img_path'];
+    img_path = 'http://10.0.2.2:8000' + json['img_path'];
     screen = json['screen'];
     price = json['price'];
     productTypeId = json['product_type_id'];
@@ -44,7 +44,7 @@ class Product {
     data['discription'] = this.discription;
     data['ram'] = this.ram;
     data['cpu'] = this.cpu;
-    data['img_path'] = this.imgPath;
+    data['img_path'] = this.img_path;
     data['screen'] = this.screen;
     data['price'] = this.price;
     data['product_type_id'] = this.productTypeId;

@@ -4,7 +4,7 @@ import 'package:shoplaptop/Model/product.dart';
 import 'package:shoplaptop/Model/producttype.dart';
 import 'package:shoplaptop/Module/home/components/sline.dart';
 import 'package:shoplaptop/Module/user/user.dart';
-import 'package:shoplaptop/provider/ProductProvider.dart';
+import 'package:shoplaptop/provider/product_provider.dart';
 import 'package:shoplaptop/widget/category_button_widget.dart';
 import 'package:shoplaptop/widget/product_card_widget.dart';
 
@@ -20,9 +20,10 @@ class Home_bodyState extends State<Home_body> {
   @override
   Widget build(BuildContext context) {
     Provider.of<ProductsProvider>(context).getProducts();
-    Provider.of<ProductsProvider>(context).getproducts_new();
+    Provider.of<ProductsProvider>(context).getProducts_new();
+
     var products = context.watch<ProductsProvider>().myValue;
-    var products_new = context.watch<ProductsProvider>().value_new;
+    var products_new = context.watch<ProductsProvider>().mynew;
 
     return SingleChildScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -61,12 +62,12 @@ class Home_bodyState extends State<Home_body> {
                 )),
           ),
         ),
-        !products.isEmpty
+        !products_new.isEmpty
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 4,
+                    itemCount: products_new.length,
                     shrinkWrap: true,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -78,7 +79,7 @@ class Home_bodyState extends State<Home_body> {
                       return ProductCard(product: products_new[index]);
                     }),
               )
-            : Text('khong co san pham moi'),
+            : Text(''),
         const Align(
           alignment: Alignment.bottomLeft,
           child: Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shoplaptop/Model/product.dart';
-import 'package:shoplaptop/Module/products/productDetail.dart';
+import 'package:shoplaptop/Module/products/product_detail.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -10,7 +10,7 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (_) {
-          return Product_detaild(
+          return ProductDetaild(
             product: product,
           );
         }));
@@ -22,7 +22,7 @@ class ProductCard extends StatelessWidget {
         child: Column(children: [
           SizedBox(
             child: Image.network(
-              product.imgPath,
+              product.img_path,
               height: 120.0,
             ),
           ),

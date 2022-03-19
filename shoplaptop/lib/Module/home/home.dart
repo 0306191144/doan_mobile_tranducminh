@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoplaptop/Module/home/components/body.dart';
 import 'package:shoplaptop/Module/user/user.dart';
-import 'package:shoplaptop/provider/ProductProvider.dart';
+import 'package:shoplaptop/provider/product_provider.dart';
 import 'package:shoplaptop/widget/footer.dart';
 
 Icon customIcon = const Icon(Icons.search);

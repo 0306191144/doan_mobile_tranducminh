@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shoplaptop/Api/api.dart';
+import 'package:shoplaptop/Model/carts.dart';
 import 'package:shoplaptop/Model/product.dart';
-import 'package:shoplaptop/provider/ProductProvider.dart';
+import 'package:shoplaptop/Module/Cart/cart_page.dart';
+import 'package:shoplaptop/provider/cart_provider.dart';
+import 'package:shoplaptop/widget/alter.dart';
 import 'package:shoplaptop/widget/mybutton_widget.dart';
 
-class Product_detaild extends StatelessWidget {
+class ProductDetaild extends StatelessWidget {
   final Product product;
-  const Product_detaild({Key? key, required this.product}) : super(key: key);
+  const ProductDetaild({Key? key, required this.product}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var products;
@@ -18,7 +22,29 @@ class Product_detaild extends StatelessWidget {
           text: 'Order',
           textStyle: const TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-          onPress: () {},
+          onPress: () async {
+            var cart_new = {
+              "product_id": product.id,
+            };
+            bool isExist = Provider.of<CartsProvider>(context, listen: false)
+                .isExist(cart_new);
+            if (isExist) {
+              return AlertMessage.showMsg(
+                  context, 'Sản phẩm này đã tồn tại trong giỏ hàng.');
+            }
+
+            var response = await Api().post('cart/add/${product.id}', cart_new);
+
+            if (response['success'] != null && response['success']) {
+              Cart myCart = Cart.fromJson(response['data']);
+              context.read<CartsProvider>().add(myCart);
+              Navigator.push(context, MaterialPageRoute(builder: (_) {
+                return CartPage();
+              }));
+            } else {
+              return AlertMessage.showMsg(context, response['message']);
+            }
+          },
           color: Colors.blueAccent,
           padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 10.0)),
       body: SafeArea(
@@ -29,7 +55,7 @@ class Product_detaild extends StatelessWidget {
             child: Column(children: [
               SizedBox(
                 width: double.infinity,
-                child: Image.network(product.imgPath),
+                child: Image.network(product.img_path),
               ),
               Text(
                 product.name,
